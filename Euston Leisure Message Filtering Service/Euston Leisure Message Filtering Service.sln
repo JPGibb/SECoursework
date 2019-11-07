@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29324.140
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Euston Leisure Message Filtering Service", "Euston Leisure Message Filtering Service\Euston Leisure Message Filtering Service.csproj", "{B387AF2A-2E1A-4848-9D59-62C036B0F4A2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B387AF2A-2E1A-4848-9D59-62C036B0F4A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B387AF2A-2E1A-4848-9D59-62C036B0F4A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B387AF2A-2E1A-4848-9D59-62C036B0F4A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B387AF2A-2E1A-4848-9D59-62C036B0F4A2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C9705A7-34B4-4B89-80F3-BB4607239B67}
+	EndGlobalSection
+EndGlobal
