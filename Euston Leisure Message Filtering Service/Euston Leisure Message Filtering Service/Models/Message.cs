@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Euston_Leisure_Message_Filtering_Service.Models
 {
-    class Message
+    abstract class Message
     {
-        private string messageId = string.Empty;
-        private string messageBody = string.Empty;
+        protected string messageId = string.Empty;
+        protected string messageBody = string.Empty;
+
+        public Message() { }
 
         public Message(string messageId, string messageBody)
         {

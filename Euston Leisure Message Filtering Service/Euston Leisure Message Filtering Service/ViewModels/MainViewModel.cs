@@ -52,7 +52,7 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                 return;
             }
 
-            Message m = new Message(MessageIdTextBox, MessageBodyTextBox);
+            Message m = new Sms(MessageIdTextBox, MessageBodyTextBox);
 
             MessageBox.Show($"Id: {m.getId()} \nBody {m.getBody()}");
         }
