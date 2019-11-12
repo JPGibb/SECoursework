@@ -52,6 +52,20 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                 return;
             }
 
+            switch (Char.ToUpper(MessageIdTextBox[0]))
+            {
+                case 'S':
+                    MessageBox.Show("SMS");
+                    break;
+                case 'E':
+                    MessageBox.Show("Email");
+                    break;
+                case 'T':
+                    MessageBox.Show("Twitter");
+                    break;
+            }
+
+
             Message m = new Sms(MessageIdTextBox, MessageBodyTextBox);
 
             MessageBox.Show($"Id: {m.getId()} \nBody {m.getBody()}");
