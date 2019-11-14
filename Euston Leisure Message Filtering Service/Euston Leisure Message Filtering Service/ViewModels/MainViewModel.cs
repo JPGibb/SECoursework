@@ -84,6 +84,7 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                     break;
                 case 'E':
                     MessageBox.Show("Email");
+                    model.addMessage(new Email(MessageIdTextBox, MessageBodyTextBox));
                     break;
                 case 'T':
                     MessageBox.Show("Twitter");
