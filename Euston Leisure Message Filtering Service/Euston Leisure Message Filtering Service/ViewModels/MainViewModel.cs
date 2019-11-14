@@ -24,6 +24,8 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
         public string SubmitButtonText { get; set; }
         public ICommand SubmitButtonCommand { get; private set; }
 
+        private Model model = new Model();
+
         public MainViewModel()
         {
             MessageIdTextBlock = "Message ID";
@@ -56,6 +58,29 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
             {
                 case 'S':
                     MessageBox.Show("SMS");
+
+                    string[] s = MessageBodyTextBox.Split('\n');
+
+                    //set sender to the value of the first line of MessageBodyTextBox
+                    string sender = s[0];
+
+                    string temp = string.Empty;
+                    for(int i = 1; i < s.Length; ++i)
+                    {
+                        temp += s[i];
+                    }
+
+                    //Ensure that the message body is within limit
+                    if (temp.ToCharArray().Length <= 140) 
+                    {
+                        Message m = new Sms(MessageIdTextBox, temp, sender, model.getTextWords());
+                        model.addMessage(m);
+                    }
+                    else
+                    {
+                        MessageBox.Show("The message Length of a sms can only be 140 characters long");
+                    }
+                    
                     break;
                 case 'E':
                     MessageBox.Show("Email");
@@ -64,11 +89,6 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                     MessageBox.Show("Twitter");
                     break;
             }
-
-
-            Message m = new Sms(MessageIdTextBox, MessageBodyTextBox);
-
-            MessageBox.Show($"Id: {m.getId()} \nBody {m.getBody()}");
         }
 
     }

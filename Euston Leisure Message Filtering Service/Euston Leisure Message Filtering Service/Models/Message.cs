@@ -10,6 +10,7 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
     {
         protected string messageId = string.Empty;
         protected string messageBody = string.Empty;
+        protected string sender = string.Empty;
 
         public Message() { }
 

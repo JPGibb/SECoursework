@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Models\Message.cs" />
+    <Compile Include="Models\Model.cs" />
     <Compile Include="Models\Sms.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
