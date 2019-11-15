@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Input;
 using Euston_Leisure_Message_Filtering_Service.Commands;
 using Euston_Leisure_Message_Filtering_Service.Models;
+using Euston_Leisure_Message_Filtering_Service.Exceptions;
 
 namespace Euston_Leisure_Message_Filtering_Service.ViewModels
 {
@@ -83,11 +84,34 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                     
                     break;
                 case 'E':
-                    MessageBox.Show("Email");
-                    model.addMessage(new Email(MessageIdTextBox, MessageBodyTextBox));
+                    string[] x = MessageBodyTextBox.Split('\n', ' ');
+                    if (x[1].ToUpper().Contains("SIR"))
+                    {
+                        MessageBox.Show("Serious Incident report");
+                        try 
+                        {
+                            model.addMessage(new SeriousIncidentReport(MessageIdTextBox, MessageBodyTextBox, x[2]));
+                        }
+                        catch(InvalidEmailException)
+                        {
+                            MessageBox.Show("An invalid Email has been entered");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Email");
+                        try
+                        {
+                            model.addMessage(new Email(MessageIdTextBox, MessageBodyTextBox));
+                        }
+                        catch (InvalidEmailException)
+                        {
+                            MessageBox.Show("An invalid email address has been entered");
+                        }
+                    }
                     break;
                 case 'T':
-                    MessageBox.Show("Twitter");
+                    MessageBox.Show("Tweet");
                     break;
             }
         }

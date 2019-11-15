@@ -5,12 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net.Mail;
+using Euston_Leisure_Message_Filtering_Service.Exceptions;
 
 namespace Euston_Leisure_Message_Filtering_Service.Models
 {
     class Email : Message
     {
-        private string subject = string.Empty;
+        protected string subject = string.Empty;
+
+        public Email() { }
 
         public Email(string messageId, string messageBody)
         {
@@ -19,22 +22,27 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             string[] s = messageBody.Split('\n', '\r');
             
             this.sender = s[0];
-            this.subject = s[1];
+            this.subject = s[2];
             
-            for(int i = 2; i < s.Length; ++i)
-            {
+            for(int i = 3; i < s.Length; ++i)
+            {    
                 this.messageBody += s[i];
             }
 
-           bool success = validateEmail();
-           
+           if(!validateEmail())
+            {
+                throw new InvalidEmailException();
+            }
+
+            removeLinks();
+
             //MessageBox.Show("Id : " + this.messageId + "\n" +
-            //    "Sender " + this.sender + "\n" + 
-            //    "Subject " + this.subject + "\n" + 
+            //    "Sender " + this.sender + "\n" +
+            //    "Subject " + this.subject + "\n" +
             //    "Body " + this.messageBody);
         }
 
-        private bool validateEmail()
+        protected bool validateEmail()
         {
             try
             {
@@ -47,6 +55,28 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
                 //MessageBox.Show("Invalid: " + this.sender + " sldkghk");
                 return false; // Is not a valid email address, so return false
             }
+        }
+
+        protected void removeLinks()
+        {
+            string newMessage = string.Empty;
+            foreach(string s in messageBody.Split(' ', '\n', '\r'))
+            {
+                if(!isUrl(s))
+                {
+                    newMessage += s + " ";
+                }
+                else
+                {
+                    newMessage += "<URL Quarantined> ";
+                }
+            }
+            messageBody = newMessage;
+        }
+
+        protected bool isUrl(string s)
+        {
+            return Uri.IsWellFormedUriString(s, UriKind.Absolute );
         }
     }
 }
