@@ -62,7 +62,7 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                     string[] s = MessageBodyTextBox.Split('\n');
 
                     //set sender to the value of the first line of MessageBodyTextBox
-                    string sender = s[0];
+                    string sender = s[0].Replace("\n", string.Empty);
 
                     string temp = string.Empty;
                     for(int i = 1; i < s.Length; ++i)

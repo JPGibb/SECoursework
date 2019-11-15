@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Net.Mail;
 
 namespace Euston_Leisure_Message_Filtering_Service.Models
 {
@@ -15,7 +16,8 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
         {
             this.messageId = messageId;
 
-            string[] s = messageBody.Split('\n');
+            string[] s = messageBody.Split('\n', '\r');
+            
             this.sender = s[0];
             this.subject = s[1];
             
@@ -24,7 +26,8 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
                 this.messageBody += s[i];
             }
 
-            validateEmail();
+           bool success = validateEmail();
+           
             //MessageBox.Show("Id : " + this.messageId + "\n" +
             //    "Sender " + this.sender + "\n" + 
             //    "Subject " + this.subject + "\n" + 
@@ -33,7 +36,17 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
 
         private bool validateEmail()
         {
-            return true;
+            try
+            {
+                MailAddress address = new MailAddress(this.sender);
+                //MessageBox.Show("Valid");
+                return true; // Is a valid email address so return true
+            }
+            catch
+            {
+                //MessageBox.Show("Invalid: " + this.sender + " sldkghk");
+                return false; // Is not a valid email address, so return false
+            }
         }
     }
 }
