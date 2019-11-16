@@ -56,12 +56,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Exceptions\FailedToCreateMessageException.cs" />
     <Compile Include="Exceptions\InvalidEmailException.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\SeriousIncidentReport.cs" />
     <Compile Include="Models\Sms.cs" />
+    <Compile Include="Models\Tweet.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Page Include="MainWindow.xaml">

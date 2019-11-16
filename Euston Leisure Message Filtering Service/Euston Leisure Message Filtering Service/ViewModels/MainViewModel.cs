@@ -112,6 +112,16 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                     break;
                 case 'T':
                     MessageBox.Show("Tweet");
+                    string[] k = MessageBodyTextBox.Split('\n');
+
+                    try
+                    {
+                        model.addMessage(new Tweet(MessageIdTextBlock, MessageBodyTextBox, model.getTextWords()));
+                    }
+                    catch(FailedToCreateMessageException)
+                    {
+                        MessageBox.Show("Error failed to create that message \nMake sure that the input data is correct");
+                    }
                     break;
             }
         }

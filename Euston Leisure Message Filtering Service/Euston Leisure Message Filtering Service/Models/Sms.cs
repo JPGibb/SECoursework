@@ -13,11 +13,11 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
         {
             this.messageId = message_id;
             this.messageBody = message_body;
+            this.messageBody = expand(text_words);
             this.sender = sender;
-            expand(text_words);
         }
 
-        private void expand(Dictionary<string,string> text_words)
+        private string expand(Dictionary<string,string> text_words)
         {
             string[] s = this.messageBody.Split('\n', '\r', ' ');
             string newMessageBody = string.Empty;
@@ -32,8 +32,9 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
                 }    
             }
 
-            this.messageBody = newMessageBody;
+            
             MessageBox.Show(newMessageBody);
+            return newMessageBody;
         }
     }
 }
