@@ -12,6 +12,7 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
     class Model
     {
         Dictionary<string, string> textWords = new Dictionary<string, string>();
+        Dictionary<string, int> hashtags = new Dictionary<string, int>();
 
         List<Message> messages = new List<Message>();       
 
@@ -48,6 +49,25 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
         public Dictionary<string,string> getTextWords()
         {
             return textWords;
+        }
+
+        public Dictionary<string, int> getHashtags()
+        {
+            return hashtags;
+        }
+
+        public void addHashtag(string h)
+        {
+            if(hashtags.ContainsKey(h))
+            {
+                hashtags[h]++;
+                //MessageBox.Show("The hash tag " + h + " has appeared " + hashtags[h] + " times");
+            }
+            else
+            {
+                hashtags.Add(h, 1);
+                //MessageBox.Show("Adding the hastag " + h);
+            }
         }
     }
 }

@@ -51,8 +51,24 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
                 }
             }
 
-            MessageBox.Show(newMessageBody);
+            //MessageBox.Show(newMessageBody);
             return newMessageBody;
+        }
+
+        public List<string> findHashtags()
+        {
+            string[] s = this.messageBody.Split(' ', '\n', '\r');
+            List<string> hashtags = new List<string>(); 
+
+            for(int i = 0; i < s.Length - 1; ++i)
+            {
+                if (s[i][0] == '#')
+                {
+                    hashtags.Add(s[i]);
+                }              
+            }
+           
+            return hashtags;
         }
     }
 }

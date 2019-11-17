@@ -116,7 +116,18 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
 
                     try
                     {
-                        model.addMessage(new Tweet(MessageIdTextBlock, MessageBodyTextBox, model.getTextWords()));
+                        Tweet t = new Tweet(MessageIdTextBlock, MessageBodyTextBox, model.getTextWords());
+                        model.addMessage(t);
+
+                        List<string> hashtags = t.findHashtags();
+                        
+                        if(hashtags.Count > 0)
+                        {
+                            foreach(string hashtag in hashtags)
+                            {
+                                model.addHashtag(hashtag);
+                            }
+                        }
                     }
                     catch(FailedToCreateMessageException)
                     {
