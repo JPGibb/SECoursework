@@ -13,7 +13,8 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
     {
         Dictionary<string, string> textWords = new Dictionary<string, string>();
         Dictionary<string, int> hashtags = new Dictionary<string, int>();
-
+        Dictionary<string, int> mentions = new Dictionary<string, int>();
+        
         List<Message> messages = new List<Message>();       
 
         public Model()
@@ -67,6 +68,25 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             {
                 hashtags.Add(h, 1);
                 //MessageBox.Show("Adding the hastag " + h);
+            }
+        }
+
+        public Dictionary<string, int> getMentions()
+        {
+            return mentions;
+        }
+
+        public void addMention(string m)
+        {
+            if(mentions.ContainsKey(m))
+            {
+                mentions[m]++;
+                //MessageBox.Show("The user " + m + " has appeared " + mentions[m] + " times");
+            }
+            else
+            {
+                mentions.Add(m, 1);
+                //MessageBox.Show("Adding " + m + " to the mentions list");
             }
         }
     }

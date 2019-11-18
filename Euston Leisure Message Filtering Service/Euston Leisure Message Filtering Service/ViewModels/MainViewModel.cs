@@ -20,6 +20,7 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
         //Text bodies
         public string MessageIdTextBox { get; set; }
         public string MessageBodyTextBox { get; set; }
+        public string TrendingListTextBox { get; set; }
 
         //Buttons
         public string SubmitButtonText { get; set; }
@@ -36,13 +37,14 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
 
             MessageIdTextBox = string.Empty;
             MessageBodyTextBox = string.Empty;
+            TrendingListTextBox = string.Empty;
 
             SubmitButtonCommand = new RelayCommand(SubmitButtonClick);
         }
 
         private void SubmitButtonClick()
         {
-            // MessageBox.Show("The submit Button has been clicked");
+            //MessageBox.Show("The submit Button has been clicked");
 
             if(MessageIdTextBox.Length != 10)
             {
@@ -120,12 +122,22 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                         model.addMessage(t);
 
                         List<string> hashtags = t.findHashtags();
-                        
+                                                
                         if(hashtags.Count > 0)
                         {
                             foreach(string hashtag in hashtags)
                             {
                                 model.addHashtag(hashtag);
+                            }
+                        }
+
+                        List<string> mentions = t.findMentions();
+
+                        if(mentions.Count > 0)
+                        {
+                            foreach (string mention in mentions)
+                            {
+                                model.addMention(mention);
                             }
                         }
                     }
@@ -135,7 +147,33 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                     }
                     break;
             }
+
+            TrendingListTextBox = generateReport();
+            OnChanged(nameof(TrendingListTextBox));
         }
 
+        private string generateReport()
+        {
+            string report = string.Empty;
+
+            report += "Tagged users:\n";
+
+            Dictionary<string, int> mentions = model.getMentions();
+
+            for(int i = 0; i < mentions.Count; ++i)
+            {
+                report += "User " + mentions.ElementAt(i).Key + " was mentioned " + mentions.ElementAt(i).Value + " Times\n";
+            }
+
+            report += "Hashtags:\n";
+            Dictionary<string, int> hashtags = model.getHashtags();
+
+            for(int i = 0; i < hashtags.Count; ++i)
+            {
+                report += "Hashtag " + hashtags.ElementAt(i).Key + " was tweeted " + hashtags.ElementAt(i).Value + " Times\n";
+            }
+
+            return report;
+        }       
     }
 }

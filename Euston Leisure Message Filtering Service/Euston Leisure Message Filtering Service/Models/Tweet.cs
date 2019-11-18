@@ -55,6 +55,8 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             return newMessageBody;
         }
 
+        //Iterate through the message body and find all the hastags
+        //Returns a list of all the found hashtags
         public List<string> findHashtags()
         {
             string[] s = this.messageBody.Split(' ', '\n', '\r');
@@ -69,6 +71,22 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             }
            
             return hashtags;
+        }
+
+        public List<string> findMentions()
+        {
+            string[] s = this.messageBody.Split(' ', '\n', '\r');
+            List<string> mentions = new List<string>();
+
+            for(int i = 0; i < s.Length -1; ++i)
+            {
+                if(s[i][0] == '@')
+                {
+                    mentions.Add(s[i]);
+                }
+            }
+
+            return mentions;
         }
     }
 }

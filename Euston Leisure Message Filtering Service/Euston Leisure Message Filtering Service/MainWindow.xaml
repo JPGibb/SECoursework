@@ -29,7 +29,8 @@
         <TextBox Text="{Binding MessageBodyTextBox}" Grid.Row="1" Grid.Column="2"
                  HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150" MinHeight="100" TextWrapping="Wrap" AcceptsReturn="True"/>
         
-        <!--Third row / Buttons -->
+        <!--Third row / Buttons and Trending list-->
         <Button Content="{Binding SubmitButtonText}"  Command="{Binding SubmitButtonCommand}" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBox Text="{Binding TrendingListTextBox}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150" MinHeight="100" TextWrapping="Wrap" AcceptsReturn="True"/>
     </Grid>
 </Window>
