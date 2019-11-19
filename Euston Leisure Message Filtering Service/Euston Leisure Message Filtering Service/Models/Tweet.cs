@@ -17,6 +17,7 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             string[] s = MessageBodyTextBox.Split('\n');
 
             this.sender = s[0].Remove(0, 1);
+            this.sender = this.sender.Replace("\r", string.Empty);
             if (sender.Length > 15)
             {
                 throw new FailedToCreateMessageException();

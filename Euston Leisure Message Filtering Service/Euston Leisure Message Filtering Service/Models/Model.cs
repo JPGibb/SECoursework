@@ -47,6 +47,11 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             //MessageBox.Show(messages.Count().ToString());
         }
 
+        public List<Message> getMessages()
+        {
+            return messages;
+        }
+
         public Dictionary<string,string> getTextWords()
         {
             return textWords;

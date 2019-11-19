@@ -14,7 +14,7 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             this.messageId = message_id;
             this.messageBody = message_body;
             this.messageBody = expand(text_words);
-            this.sender = sender;
+            this.sender = sender.Replace("\r", string.Empty);
         }
 
         private string expand(Dictionary<string,string> text_words)

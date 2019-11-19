@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ using System.Windows.Input;
 using Euston_Leisure_Message_Filtering_Service.Commands;
 using Euston_Leisure_Message_Filtering_Service.Models;
 using Euston_Leisure_Message_Filtering_Service.Exceptions;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace Euston_Leisure_Message_Filtering_Service.ViewModels
 {
@@ -26,6 +29,9 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
         public string SubmitButtonText { get; set; }
         public ICommand SubmitButtonCommand { get; private set; }
 
+        public string SaveButtonText { get; set; }
+        public ICommand SaveButtonCommand { get; private set; }
+
         private Model model = new Model();
 
         public MainViewModel()
@@ -34,12 +40,35 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
             MessageBodyTextBlock = "Message Body";
 
             SubmitButtonText = "Submit";
+            SaveButtonText = "Save";
 
             MessageIdTextBox = string.Empty;
             MessageBodyTextBox = string.Empty;
             TrendingListTextBox = string.Empty;
 
+            SaveButtonCommand = new RelayCommand(SaveButtonClick);
             SubmitButtonCommand = new RelayCommand(SubmitButtonClick);
+        }
+
+        private void SaveButtonClick()
+        {
+            //MessageBox.Show("Saved");
+
+            List<Message> messages = model.getMessages();
+            Message m = messages[0];
+
+            string output = JsonConvert.SerializeObject(m);
+            //output += "\n" + JsonConvert.SerializeObject(messages[1]);
+            MessageBox.Show(output);
+
+            JsonSerializer ser = new JsonSerializer();
+            ser.NullValueHandling = NullValueHandling.Ignore;
+
+            using(StreamWriter sw = new StreamWriter(@"C:\Users\Public\test.json"))
+            using (JsonWriter jw = new JsonTextWriter(sw))
+            {
+                ser.Serialize(jw, m);
+            }
         }
 
         private void SubmitButtonClick()
@@ -118,7 +147,7 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
 
                     try
                     {
-                        Tweet t = new Tweet(MessageIdTextBlock, MessageBodyTextBox, model.getTextWords());
+                        Tweet t = new Tweet(MessageIdTextBox, MessageBodyTextBox, model.getTextWords());
                         model.addMessage(t);
 
                         List<string> hashtags = t.findHashtags();

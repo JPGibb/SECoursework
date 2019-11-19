@@ -21,7 +21,7 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
 
             string[] s = messageBody.Split('\n', '\r');
             
-            this.sender = s[0];
+            this.sender = s[0].Replace("\r", string.Empty);
             this.subject = s[2];
             
             for(int i = 3; i < s.Length; ++i)
