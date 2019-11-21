@@ -18,7 +18,7 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
         {
             this.messageId = messageId;
             string[] s = messageBody.Split('\n', '\r');
-
+            MessageBox.Show(s.Length.ToString());
             this.sender = s[0];
             this.subject = s[2];
             this.date = date;

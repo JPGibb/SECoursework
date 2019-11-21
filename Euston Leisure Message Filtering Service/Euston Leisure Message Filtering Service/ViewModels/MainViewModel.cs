@@ -11,6 +11,7 @@ using Euston_Leisure_Message_Filtering_Service.Models;
 using Euston_Leisure_Message_Filtering_Service.Exceptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Win32;
 
 namespace Euston_Leisure_Message_Filtering_Service.ViewModels
 {
@@ -32,6 +33,9 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
         public string SaveButtonText { get; set; }
         public ICommand SaveButtonCommand { get; private set; }
 
+        public string OpenFileButtonText { get; set; }
+        public ICommand OpenFileButtonCommand { get; private set; }
+
         private Model model = new Model();
 
         public MainViewModel()
@@ -41,6 +45,7 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
 
             SubmitButtonText = "Submit";
             SaveButtonText = "Save";
+            OpenFileButtonText = "Open File";
 
             MessageIdTextBox = string.Empty;
             MessageBodyTextBox = string.Empty;
@@ -48,26 +53,32 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
 
             SaveButtonCommand = new RelayCommand(SaveButtonClick);
             SubmitButtonCommand = new RelayCommand(SubmitButtonClick);
+            OpenFileButtonCommand = new RelayCommand(OpenFileButtonClick);
         }
 
         private void SaveButtonClick()
         {
             //MessageBox.Show("Saved");
-
+            string output = string.Empty;
             List<Message> messages = model.getMessages();
-            Message m = messages[0];
-
-            string output = JsonConvert.SerializeObject(m);
-            //output += "\n" + JsonConvert.SerializeObject(messages[1]);
-            MessageBox.Show(output);
-
-            JsonSerializer ser = new JsonSerializer();
-            ser.NullValueHandling = NullValueHandling.Ignore;
-
-            using(StreamWriter sw = new StreamWriter(@"C:\Users\Public\test.json"))
-            using (JsonWriter jw = new JsonTextWriter(sw))
+          
+            foreach (Message m in messages)
             {
-                ser.Serialize(jw, m);
+                //Message m = messages[0];
+
+                output += JsonConvert.SerializeObject(m);
+               
+                //output += "\n" + JsonConvert.SerializeObject(messages[1]);
+                MessageBox.Show(output);
+
+                JsonSerializer ser = new JsonSerializer();
+                ser.NullValueHandling = NullValueHandling.Ignore;
+
+                using (StreamWriter sw = new StreamWriter(@"C:\Users\Public\test.json"))
+                using (JsonWriter jw = new JsonTextWriter(sw))
+                {
+                    ser.Serialize(jw, output);
+                }
             }
         }
 
@@ -75,55 +86,79 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
         {
             //MessageBox.Show("The submit Button has been clicked");
 
-            if(MessageIdTextBox.Length != 10)
+            processInput(MessageIdTextBox, MessageBodyTextBox);
+
+            TrendingListTextBox = generateReport();
+            OnChanged(nameof(TrendingListTextBox));
+        }
+
+        private void OpenFileButtonClick()
+        {
+            //MessageBox.Show("The open file button has been clicked");
+
+            OpenFileDialog ofd = new OpenFileDialog();
+            if (ofd.ShowDialog() == true)
+            {
+                string s = File.ReadAllText(ofd.FileName);
+                string[] split = s.Split(',');
+                for(int i = 0; i < split.Length; i+=2)
+                {
+                    processInput(split[i], split[i + 1]);
+                }
+            }
+         }
+
+        private void processInput(string messageid, string messagebody)
+        {
+            if (messageid.Length != 10)
             {
                 MessageBox.Show("Error You must enter a Message ID");
                 return;
             }
-            if(MessageBodyTextBox == string.Empty)
+            if (messagebody == string.Empty)
             {
                 MessageBox.Show("Error you must enter a message body");
                 return;
             }
 
-            switch (Char.ToUpper(MessageIdTextBox[0]))
+            switch (Char.ToUpper(messageid[0]))
             {
                 case 'S':
                     MessageBox.Show("SMS");
 
-                    string[] s = MessageBodyTextBox.Split('\n');
+                    string[] s = messagebody.Split('\n');
 
-                    //set sender to the value of the first line of MessageBodyTextBox
+                    //set sender to the value of the first line of messagebody
                     string sender = s[0].Replace("\n", string.Empty);
 
                     string temp = string.Empty;
-                    for(int i = 1; i < s.Length; ++i)
+                    for (int i = 1; i < s.Length; ++i)
                     {
                         temp += s[i];
                     }
 
                     //Ensure that the message body is within limit
-                    if (temp.ToCharArray().Length <= 140) 
+                    if (temp.ToCharArray().Length <= 140)
                     {
-                        Message m = new Sms(MessageIdTextBox, temp, sender, model.getTextWords());
+                        Message m = new Sms(messageid, temp, sender, model.getTextWords());
                         model.addMessage(m);
                     }
                     else
                     {
                         MessageBox.Show("The message Length of a sms can only be 140 characters long");
                     }
-                    
+
                     break;
                 case 'E':
-                    string[] x = MessageBodyTextBox.Split('\n', ' ');
+                    string[] x = messagebody.Split('\n', ' ');
                     if (x[1].ToUpper().Contains("SIR"))
                     {
                         MessageBox.Show("Serious Incident report");
-                        try 
+                        try
                         {
-                            model.addMessage(new SeriousIncidentReport(MessageIdTextBox, MessageBodyTextBox, x[2]));
+                            model.addMessage(new SeriousIncidentReport(messageid, messagebody, x[2]));
                         }
-                        catch(InvalidEmailException)
+                        catch (InvalidEmailException)
                         {
                             MessageBox.Show("An invalid Email has been entered");
                         }
@@ -133,7 +168,7 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                         MessageBox.Show("Email");
                         try
                         {
-                            model.addMessage(new Email(MessageIdTextBox, MessageBodyTextBox));
+                            model.addMessage(new Email(messageid, messagebody));
                         }
                         catch (InvalidEmailException)
                         {
@@ -143,18 +178,18 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                     break;
                 case 'T':
                     MessageBox.Show("Tweet");
-                    string[] k = MessageBodyTextBox.Split('\n');
+                    string[] k = messagebody.Split('\n');
 
                     try
                     {
-                        Tweet t = new Tweet(MessageIdTextBox, MessageBodyTextBox, model.getTextWords());
+                        Tweet t = new Tweet(messageid, messagebody, model.getTextWords());
                         model.addMessage(t);
 
                         List<string> hashtags = t.findHashtags();
-                                                
-                        if(hashtags.Count > 0)
+
+                        if (hashtags.Count > 0)
                         {
-                            foreach(string hashtag in hashtags)
+                            foreach (string hashtag in hashtags)
                             {
                                 model.addHashtag(hashtag);
                             }
@@ -162,7 +197,7 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
 
                         List<string> mentions = t.findMentions();
 
-                        if(mentions.Count > 0)
+                        if (mentions.Count > 0)
                         {
                             foreach (string mention in mentions)
                             {
@@ -170,15 +205,12 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                             }
                         }
                     }
-                    catch(FailedToCreateMessageException)
+                    catch (FailedToCreateMessageException)
                     {
                         MessageBox.Show("Error failed to create that message \nMake sure that the input data is correct");
                     }
                     break;
             }
-
-            TrendingListTextBox = generateReport();
-            OnChanged(nameof(TrendingListTextBox));
         }
 
         private string generateReport()

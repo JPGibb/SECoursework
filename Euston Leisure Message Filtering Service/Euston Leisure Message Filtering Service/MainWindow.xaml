@@ -31,6 +31,7 @@
         
         <!--Third row / Buttons and Trending list-->
         <Button Content="{Binding SaveButtonText}" Command="{Binding SaveButtonCommand}" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Button Content="{Binding OpenFileButtonText}" Command="{Binding OpenFileButtonCommand}" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="bottom" Margin="10" />
         <Button Content="{Binding SubmitButtonText}"  Command="{Binding SubmitButtonCommand}" Grid.Row="2" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <TextBox Text="{Binding TrendingListTextBox}" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" MinWidth="150" MinHeight="100" TextWrapping="Wrap" AcceptsReturn="True"/>
     </Grid>
