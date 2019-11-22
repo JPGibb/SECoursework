@@ -12,6 +12,7 @@ using Euston_Leisure_Message_Filtering_Service.Exceptions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Microsoft.Win32;
+using System.Xml.Linq;
 
 namespace Euston_Leisure_Message_Filtering_Service.ViewModels
 {
@@ -56,30 +57,32 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
             OpenFileButtonCommand = new RelayCommand(OpenFileButtonClick);
         }
 
+        //Convert all the data in the model to json format
         private void SaveButtonClick()
         {
-            //MessageBox.Show("Saved");
-            string output = string.Empty;
-            List<Message> messages = model.getMessages();
-          
-            foreach (Message m in messages)
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Json Files (*.json)|*.json";
+            if(sfd.ShowDialog() == true)
             {
-                //Message m = messages[0];
-
-                output += JsonConvert.SerializeObject(m);
-               
-                //output += "\n" + JsonConvert.SerializeObject(messages[1]);
-                MessageBox.Show(output);
-
+                //MessageBox.Show("Saved");
+                string output = string.Empty;
+                List<Message> messages = model.getMessages();
+                output += JsonConvert.SerializeObject(messages);
+                
+                
                 JsonSerializer ser = new JsonSerializer();
                 ser.NullValueHandling = NullValueHandling.Ignore;
 
-                using (StreamWriter sw = new StreamWriter(@"C:\Users\Public\test.json"))
+
+
+                //using (StreamWriter sw = new StreamWriter(@"C:\Users\Public\test.json"))
+                using (StreamWriter sw = new StreamWriter(sfd.FileName))
                 using (JsonWriter jw = new JsonTextWriter(sw))
                 {
                     ser.Serialize(jw, output);
                 }
             }
+            
         }
 
         private void SubmitButtonClick()
@@ -98,15 +101,22 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
 
             OpenFileDialog ofd = new OpenFileDialog();
             if (ofd.ShowDialog() == true)
-            {
-                string s = File.ReadAllText(ofd.FileName);
-                string[] split = s.Split(',');
-                for(int i = 0; i < split.Length; i+=2)
+            { 
+                XDocument xml = XDocument.Load(ofd.FileName);
+                var messageIds = xml.Descendants("messageId");
+                var messageBodies = xml.Descendants("messageBody");
+
+                for(int i = 0; i < messageIds.Count(); ++i)
                 {
-                    processInput(split[i], split[i + 1]);
+                    //string[] s = messageBodies.ElementAt(i).Value.Split('\n', ' ');
+                    //foreach(string x in s)
+                    //{
+                    //    MessageBox.Show(x);
+                    //}
+                    processInput(messageIds.ElementAt(i).Value.Trim('\r', '\n'), messageBodies.ElementAt(i).Value.Trim('\r', '\n'));
                 }
             }
-         }
+        }
 
         private void processInput(string messageid, string messagebody)
         {
@@ -156,11 +166,18 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                         MessageBox.Show("Serious Incident report");
                         try
                         {
-                            model.addMessage(new SeriousIncidentReport(messageid, messagebody, x[2]));
+                            MessageBox.Show(messagebody);
+                            SeriousIncidentReport sir = new SeriousIncidentReport(messageid, messagebody, x[2]);
+                            model.addMessage(sir);
+                            model.addSir(sir.getSccNoc());
                         }
                         catch (InvalidEmailException)
                         {
                             MessageBox.Show("An invalid Email has been entered");
+                        }
+                        catch(FailedToCreateMessageException)
+                        {
+                            MessageBox.Show("Failed to create message, ensure that all details are valid");
                         }
                     }
                     else
@@ -173,6 +190,10 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                         catch (InvalidEmailException)
                         {
                             MessageBox.Show("An invalid email address has been entered");
+                        }
+                        catch (FailedToCreateMessageException)
+                        {
+                            MessageBox.Show("Failed to create message, ensure that all details are valid");
                         }
                     }
                     break;

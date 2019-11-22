@@ -33,7 +33,7 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             }
 
             
-            MessageBox.Show(newMessageBody);
+            //MessageBox.Show(newMessageBody);
             return newMessageBody;
         }
     }

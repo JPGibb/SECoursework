@@ -15,7 +15,8 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
         Dictionary<string, int> hashtags = new Dictionary<string, int>();
         Dictionary<string, int> mentions = new Dictionary<string, int>();
         
-        List<Message> messages = new List<Message>();       
+        List<Message> messages = new List<Message>();
+        List<String[]> sirList = new List<String[]>();
 
         public Model()
         {
@@ -50,6 +51,16 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
         public List<Message> getMessages()
         {
             return messages;
+        }
+
+        public void addSir(string[] s)
+        {
+            sirList.Add(s);
+        }
+
+        public List<String[]> getSirList()
+        {
+            return sirList;
         }
 
         public Dictionary<string,string> getTextWords()
