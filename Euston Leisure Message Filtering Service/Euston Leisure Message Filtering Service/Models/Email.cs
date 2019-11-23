@@ -11,7 +11,7 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
 {
     class Email : Message
     {
-        protected string subject = string.Empty;
+        public string subject = string.Empty;
 
         public Email() { }
 

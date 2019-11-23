@@ -67,20 +67,16 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                 //MessageBox.Show("Saved");
                 string output = string.Empty;
                 List<Message> messages = model.getMessages();
-                output += JsonConvert.SerializeObject(messages);
-                
-                
+                output += JsonConvert.SerializeObject(messages, Formatting.Indented);
+
+                output += JsonConvert.SerializeObject(model.getSirList(), Formatting.Indented);
+                output += JsonConvert.SerializeObject(model.getHashtags(), Formatting.Indented);
+                output += JsonConvert.SerializeObject(model.getMentions(), Formatting.Indented);
                 JsonSerializer ser = new JsonSerializer();
                 ser.NullValueHandling = NullValueHandling.Ignore;
 
 
-
-                //using (StreamWriter sw = new StreamWriter(@"C:\Users\Public\test.json"))
-                using (StreamWriter sw = new StreamWriter(sfd.FileName))
-                using (JsonWriter jw = new JsonTextWriter(sw))
-                {
-                    ser.Serialize(jw, output);
-                }
+                File.WriteAllText(sfd.FileName, output);
             }
             
         }
