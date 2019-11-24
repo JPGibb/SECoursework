@@ -148,15 +148,18 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                     {
                         Message m = new Sms(messageid, temp, sender, model.getTextWords());
                         model.addMessage(m);
+                        MessageBodyTextBox = m.getDetails();
+                        OnChanged(nameof(MessageBodyTextBox));
                     }
                     else
                     {
                         MessageBox.Show("The message Length of a sms can only be 140 characters long");
                     }
-
+                    
                     break;
                 case 'E':
                     string[] x = messagebody.Split('\n', ' ');
+                    
                     if (x[1].ToUpper().Contains("SIR"))
                     {
                         MessageBox.Show("Serious Incident report");
@@ -166,6 +169,8 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                             SeriousIncidentReport sir = new SeriousIncidentReport(messageid, messagebody, x[2]);
                             model.addMessage(sir);
                             model.addSir(sir.getSccNoc());
+                            MessageBodyTextBox = sir.getDetails();
+                            OnChanged(nameof(MessageBodyTextBox));
                         }
                         catch (InvalidEmailException)
                         {
@@ -181,7 +186,10 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                         MessageBox.Show("Email");
                         try
                         {
-                            model.addMessage(new Email(messageid, messagebody));
+                            Email e = new Email(messageid, messagebody);
+                            model.addMessage(e);
+                            MessageBodyTextBox = e.getDetails();
+                            OnChanged(nameof(MessageBodyTextBox));
                         }
                         catch (InvalidEmailException)
                         {
@@ -221,6 +229,8 @@ namespace Euston_Leisure_Message_Filtering_Service.ViewModels
                                 model.addMention(mention);
                             }
                         }
+                        MessageBodyTextBox = t.getDetails();
+                        OnChanged(nameof(MessageBodyTextBox));
                     }
                     catch (FailedToCreateMessageException)
                     {

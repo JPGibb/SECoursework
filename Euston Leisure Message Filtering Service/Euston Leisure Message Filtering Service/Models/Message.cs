@@ -33,5 +33,14 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
         {
             return messageBody;
         }
+
+        public string getDetails()
+        {
+            string s = string.Empty;
+
+            s += sender + "\n";
+            s += messageBody;
+            return s;
+        }
     }
 }

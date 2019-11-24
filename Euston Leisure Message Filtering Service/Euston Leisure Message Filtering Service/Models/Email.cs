@@ -22,17 +22,17 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             string[] s = messageBody.Split('\n', '\r');
             
             this.sender = s[0].Replace("\r", string.Empty);
-            this.subject = s[2];
+            this.subject = s[1];
             
-            for(int i = 3; i < s.Length; ++i)
+            for(int i = 2; i < s.Length; ++i)
             {    
                 this.messageBody += s[i];
             }
 
            if(!validateEmail())
-            {
-                throw new InvalidEmailException();
-            }
+           {
+               throw new InvalidEmailException();
+           }
 
             removeLinks();
 
@@ -77,6 +77,17 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
         protected bool isUrl(string s)
         {
             return Uri.IsWellFormedUriString(s, UriKind.Absolute );
+        }
+
+        public string getDetails()
+        {
+            string s = string.Empty;
+
+            s += this.sender + "\n";
+            s += this.subject + "\n";
+            s += this.messageBody;
+
+            return s;
         }
     }
 }
