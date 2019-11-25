@@ -9,6 +9,7 @@ using Euston_Leisure_Message_Filtering_Service.Exceptions;
 
 namespace Euston_Leisure_Message_Filtering_Service.Models
 {
+    //Represents an email message
     class Email : Message
     {
         public string subject = string.Empty;
@@ -29,19 +30,20 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
                 this.messageBody += s[i];
             }
 
-           if(!validateEmail())
-           {
-               throw new InvalidEmailException();
-           }
+            if(this.sender.ToCharArray().Count() > 20 || this.messageBody.ToCharArray().Count() > 1024)
+            {
+                throw new ToManyCharactersException();
+            }
+
+            if(!validateEmail())
+            {
+                throw new InvalidEmailException();
+            }
 
             removeLinks();
-
-            //MessageBox.Show("Id : " + this.messageId + "\n" +
-            //    "Sender " + this.sender + "\n" +
-            //    "Subject " + this.subject + "\n" +
-            //    "Body " + this.messageBody);
         }
 
+        //Ensures the sender is valid email address
         protected bool validateEmail()
         {
             try
@@ -57,6 +59,7 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             }
         }
 
+        //Removes any links from the message
         protected void removeLinks()
         {
             string newMessage = string.Empty;
@@ -74,11 +77,13 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             messageBody = newMessage;
         }
 
+        //Returns if a string is  valid URL
         protected bool isUrl(string s)
         {
             return Uri.IsWellFormedUriString(s, UriKind.Absolute );
         }
 
+        //Returns a string representation of the message
         public string getDetails()
         {
             string s = string.Empty;

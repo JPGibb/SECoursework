@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Euston_Leisure_Message_Filtering_Service.Models
 {
+    //Represents a serious inicdent report
     class SeriousIncidentReport : Email
     {
         //Enum that represents the possible incidents that may be recorded
@@ -54,7 +55,6 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             this.sportCentreCode = s[2];
             try
             {
-
                 string n = s[3].Replace(" ", "_").ToLower();
                 this.natureOfIncident = (NatureOfIncident)Enum.Parse(typeof(NatureOfIncident), n);
                 //MessageBox.Show(this.natureOfIncident.ToString(), "Nature of incident");
@@ -69,6 +69,12 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
                 this.messageBody += s[i];
             }
 
+            //Ensure that sender and message body are not over the limited size specified
+            if (this.sender.ToCharArray().Count() > 20 || this.messageBody.ToCharArray().Count() > 1024)
+            {
+                throw new ToManyCharactersException();
+            }
+
             if (!validateEmail())
             {
                 throw new InvalidEmailException();
@@ -78,7 +84,7 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
         }
 
         //Returns a string array conataining the nature of the sport centre code and nature of incident
-        public string[] getSccNoc()
+        public string[] getSccNoi()
         {
             string[] s = new string[2];
 
@@ -88,6 +94,7 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             return s;
         }
 
+        //Retruns a string representation of the object
         public string getDetails()
         {
             string s = string.Empty;

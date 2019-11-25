@@ -7,6 +7,7 @@ using System.Windows;
 
 namespace Euston_Leisure_Message_Filtering_Service.Models
 {
+    //Represents an SMS message
     class Sms : Message
     {
         public Sms(string message_id, string message_body, string sender, Dictionary<string,string> text_words)
@@ -17,6 +18,7 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             this.sender = sender.Replace("\r", string.Empty);
         }
 
+        //Expand all the abreviations in the message
         private string expand(Dictionary<string,string> text_words)
         {
             string[] s = this.messageBody.Split('\n', '\r', ' ');

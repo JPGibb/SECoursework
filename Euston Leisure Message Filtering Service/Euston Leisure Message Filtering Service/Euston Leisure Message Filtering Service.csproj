@@ -62,6 +62,7 @@
     <Compile Include="Commands\RelayCommand.cs" />
     <Compile Include="Exceptions\FailedToCreateMessageException.cs" />
     <Compile Include="Exceptions\InvalidEmailException.cs" />
+    <Compile Include="Exceptions\ToManyCharactersException.cs" />
     <Compile Include="Models\Email.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Model.cs" />

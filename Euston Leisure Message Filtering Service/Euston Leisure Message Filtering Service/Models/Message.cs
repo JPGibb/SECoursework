@@ -8,10 +8,6 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
 {
     abstract class Message
     {
-        //protected string messageId = string.Empty;
-        //protected string messageBody = string.Empty;
-        //protected string sender = string.Empty;
-
         public string messageId = string.Empty;
         public string messageBody = string.Empty;
         public string sender = string.Empty;
@@ -24,16 +20,19 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             this.messageBody = messageBody;
         }
 
+        //Returns the id of the message
         public string getId()
         {
             return messageId;
         }
 
+        //Returns the body of ht message
         public string getBody()
         {
             return messageBody;
         }
 
+        //Returns a string representation of tthe message
         public string getDetails()
         {
             string s = string.Empty;

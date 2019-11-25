@@ -1,0 +1,65 @@
+[
+  {
+    "messageId": "s123456789",
+    "messageBody": "This is the message body ",
+    "sender": "78966532"
+  },
+  {
+    "messageId": "t147258369",
+    "messageBody": "#lol @bob thehal fng ",
+    "sender": "thesender"
+  },
+  {
+    "subject": "This is the message subject",
+    "messageId": "e369852147",
+    "messageBody": "and now the message body ",
+    "sender": "b@b.a"
+  },
+  {
+    "sportCentreCode": "00-111-00",
+    "natureOfIncident": 3,
+    "date": "2019-12-20T00:00:00",
+    "subject": "sir 20/12/19",
+    "messageId": "e987654321",
+    "messageBody": "This ist he msgj ",
+    "sender": "a@a.a"
+  },
+  {
+    "messageId": "s123456789",
+    "messageBody": "This is the message body ",
+    "sender": "78966532"
+  },
+  {
+    "messageId": "t147258369",
+    "messageBody": "#lol @bob thehal fng ",
+    "sender": "thesender"
+  },
+  {
+    "subject": "This is the message subject",
+    "messageId": "e369852147",
+    "messageBody": "and now the message body ",
+    "sender": "b@b.a"
+  },
+  {
+    "sportCentreCode": "00-111-00",
+    "natureOfIncident": 3,
+    "date": "2019-12-20T00:00:00",
+    "subject": "sir 20/12/19",
+    "messageId": "e987654321",
+    "messageBody": "This ist he msgj ",
+    "sender": "a@a.a"
+  }
+][
+  [
+    "00-111-00",
+    "raid"
+  ],
+  [
+    "00-111-00",
+    "raid"
+  ]
+]{
+  "#lol": 2
+}{
+  "@bob": 2
+}

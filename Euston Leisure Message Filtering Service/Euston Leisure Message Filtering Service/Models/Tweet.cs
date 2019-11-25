@@ -8,6 +8,7 @@ using Euston_Leisure_Message_Filtering_Service.Exceptions;
 
 namespace Euston_Leisure_Message_Filtering_Service.Models
 {
+    //Class that represents a tweet
     class Tweet : Message
     {
         public Tweet(string MessageIdTextBox, string MessageBodyTextBox, Dictionary<string, string> text_words)
@@ -18,25 +19,21 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
 
             this.sender = s[0].Remove(0, 1);
             this.sender = this.sender.Replace("\r", string.Empty);
-            if (sender.Length > 15)
-            {
-                throw new FailedToCreateMessageException();
-            }
-
+         
             for(int i = 1; i < s.Length; ++i)
             {
                 this.messageBody += s[i];
             }
             
-            if(this.messageBody.Length > 140)
+            if(this.sender.ToCharArray().Count() > 20 || this.messageBody.ToCharArray().Count() > 140)
             {
-                throw new FailedToCreateMessageException();
+                throw new ToManyCharactersException();
             }
 
             this.messageBody = expand(text_words);
         }
 
-        //Expand the ant abbreviations in the message body
+        //Expand any abbreviations in the message body
         private string expand(Dictionary<string, string> text_words)
         {
             string[] s = this.messageBody.Split('\n', '\r', ' ');
@@ -74,6 +71,7 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
             return hashtags;
         }
 
+        //Finds all the mentions in the message
         public List<string> findMentions()
         {
             string[] s = this.messageBody.Split(' ', '\n', '\r');
