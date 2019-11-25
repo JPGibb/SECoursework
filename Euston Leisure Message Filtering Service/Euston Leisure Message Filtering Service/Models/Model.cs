@@ -12,12 +12,12 @@ namespace Euston_Leisure_Message_Filtering_Service.Models
     //The model that stores all the information in the program
     class Model
     {
-        Dictionary<string, string> textWords = new Dictionary<string, string>();
-        Dictionary<string, int> hashtags = new Dictionary<string, int>();
-        Dictionary<string, int> mentions = new Dictionary<string, int>();
-        
-        List<Message> messages = new List<Message>();
-        List<String[]> sirList = new List<String[]>();
+        private Dictionary<string, string> textWords = new Dictionary<string, string>();
+        private Dictionary<string, int> hashtags = new Dictionary<string, int>();
+        private Dictionary<string, int> mentions = new Dictionary<string, int>();
+
+        private List<Message> messages = new List<Message>();
+        private List<String[]> sirList = new List<String[]>();
 
         public Model()
         {

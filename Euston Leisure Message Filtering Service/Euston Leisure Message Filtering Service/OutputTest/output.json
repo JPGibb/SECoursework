@@ -1,65 +1,36 @@
 [
   {
     "messageId": "s123456789",
-    "messageBody": "This is the message body ",
+    "messageBody": "Hi text me back asap <As soon as possible> ",
     "sender": "78966532"
   },
   {
     "messageId": "t147258369",
-    "messageBody": "#lol @bob thehal fng ",
+    "messageBody": "lol <Laughing out loud> @bob #bobsucks ",
     "sender": "thesender"
   },
   {
-    "subject": "This is the message subject",
+    "subject": "Useful links",
     "messageId": "e369852147",
-    "messageBody": "and now the message body ",
+    "messageBody": "<URL Quarantined> Hope you enjoy it ",
     "sender": "b@b.a"
   },
   {
     "sportCentreCode": "00-111-00",
-    "natureOfIncident": 3,
+    "natureOfIncident": 2,
     "date": "2019-12-20T00:00:00",
     "subject": "sir 20/12/19",
     "messageId": "e987654321",
-    "messageBody": "This ist he msgj ",
-    "sender": "a@a.a"
-  },
-  {
-    "messageId": "s123456789",
-    "messageBody": "This is the message body ",
-    "sender": "78966532"
-  },
-  {
-    "messageId": "t147258369",
-    "messageBody": "#lol @bob thehal fng ",
-    "sender": "thesender"
-  },
-  {
-    "subject": "This is the message subject",
-    "messageId": "e369852147",
-    "messageBody": "and now the message body ",
-    "sender": "b@b.a"
-  },
-  {
-    "sportCentreCode": "00-111-00",
-    "natureOfIncident": 3,
-    "date": "2019-12-20T00:00:00",
-    "subject": "sir 20/12/19",
-    "messageId": "e987654321",
-    "messageBody": "This ist he msgj ",
+    "messageBody": "A device was damaged whilst attempting to access <URL Quarantined> ",
     "sender": "a@a.a"
   }
 ][
   [
     "00-111-00",
-    "raid"
-  ],
-  [
-    "00-111-00",
-    "raid"
+    "device_damage"
   ]
 ]{
-  "#lol": 2
+  "#bobsucks": 1
 }{
-  "@bob": 2
+  "@bob": 1
 }

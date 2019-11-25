@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Euston_Leisure_Message_Filtering_Service.Models
 {
-    abstract class Message
+    public class Message
     {
         public string messageId = string.Empty;
         public string messageBody = string.Empty;
